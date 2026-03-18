@@ -1,23 +1,16 @@
 :root {
-    --bg-color: #f0f2f5;
-    --container-bg: rgba(255, 255, 255, 0.9);
-    --text-color: #333;
-    --accent-color: #4a90e2;
-    --dice-bg: #fff;
-    --dot-color: #333;
-    --button-bg: #4a90e2;
-    --button-text: #fff;
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --container-bg: rgba(255, 255, 255, 0.95);
+    --text-color: #2d3436;
+    --accent-color: #6c5ce7;
+    --ball-bg: #fff;
+    --ball-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-body.dark-mode {
-    --bg-color: #1a1a1a;
-    --container-bg: rgba(45, 45, 45, 0.9);
-    --text-color: #f0f2f5;
-    --accent-color: #64b5f6;
-    --dice-bg: #333;
-    --dot-color: #f0f2f5;
-    --button-bg: #64b5f6;
-    --button-text: #1a1a1a;
+body.blue-mode {
+    --bg-gradient: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+    --accent-color: #0984e3;
+    --ball-shadow: 0 4px 15px rgba(9, 132, 227, 0.2);
 }
 
 body {
@@ -28,9 +21,24 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: var(--bg-color);
+    background: var(--bg-gradient);
     color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s ease;
+}
+
+/* Subtle Noise Texture */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/cubes.png');
+    opacity: 0.05;
+    z-index: -1;
 }
 
 .theme-toggle {
@@ -40,122 +48,119 @@ body {
 }
 
 #theme-btn {
-    padding: 10px 20px;
+    padding: 8px 16px;
     font-size: 14px;
     border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: none;
 }
 
 .container {
     background: var(--container-bg);
     padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     text-align: center;
-    max-width: 400px;
+    max-width: 500px;
     width: 90%;
     backdrop-filter: blur(10px);
 }
 
-h1 {
-    margin-bottom: 30px;
-    font-weight: 600;
+.header {
+    margin-bottom: 40px;
 }
 
-.dice-wrapper {
-    height: 150px;
+.emoji {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.numbers-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.number-placeholder, .lotto-ball {
+    width: 50px;
+    height: 50px;
+    background: var(--ball-bg);
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
-}
-
-.dice {
-    width: 100px;
-    height: 100px;
-    background-color: var(--dice-bg);
-    border-radius: 15px;
-    position: relative;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.2);
-    display: grid;
-    grid-template-areas: 
-        "a . b"
-        "c d e"
-        "f . g";
-    padding: 15px;
-    box-sizing: border-box;
-    transition: transform 0.5s ease;
-}
-
-.dot {
-    width: 18px;
-    height: 18px;
-    background-color: var(--dot-color);
-    border-radius: 50%;
-    align-self: center;
-    justify-self: center;
-}
-
-/* 주사위 눈 배치 */
-.dice[data-value="1"] .dot { grid-area: d; }
-
-.dice[data-value="2"] .dot:nth-child(1) { grid-area: a; }
-.dice[data-value="2"] .dot:nth-child(2) { grid-area: g; }
-
-.dice[data-value="3"] .dot:nth-child(1) { grid-area: a; }
-.dice[data-value="3"] .dot:nth-child(2) { grid-area: d; }
-.dice[data-value="3"] .dot:nth-child(3) { grid-area: g; }
-
-.dice[data-value="4"] .dot:nth-child(1) { grid-area: a; }
-.dice[data-value="4"] .dot:nth-child(2) { grid-area: b; }
-.dice[data-value="4"] .dot:nth-child(3) { grid-area: f; }
-.dice[data-value="4"] .dot:nth-child(4) { grid-area: g; }
-
-.dice[data-value="5"] .dot:nth-child(1) { grid-area: a; }
-.dice[data-value="5"] .dot:nth-child(2) { grid-area: b; }
-.dice[data-value="5"] .dot:nth-child(3) { grid-area: d; }
-.dice[data-value="5"] .dot:nth-child(4) { grid-area: f; }
-.dice[data-value="5"] .dot:nth-child(5) { grid-area: g; }
-
-.dice[data-value="6"] .dot:nth-child(1) { grid-area: a; }
-.dice[data-value="6"] .dot:nth-child(2) { grid-area: b; }
-.dice[data-value="6"] .dot:nth-child(3) { grid-area: c; }
-.dice[data-value="6"] .dot:nth-child(4) { grid-area: e; }
-.dice[data-value="6"] .dot:nth-child(5) { grid-area: f; }
-.dice[data-value="6"] .dot:nth-child(6) { grid-area: g; }
-
-button {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: none;
-    padding: 15px 30px;
-    font-size: 18px;
+    font-size: 1.4rem;
     font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform 0.2s, opacity 0.2s;
-    font-family: inherit;
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-button:hover {
-    opacity: 0.9;
-}
-
-#result-text {
-    margin-top: 20px;
-    font-size: 1.2em;
-    font-weight: 600;
+    box-shadow: var(--ball-shadow);
     color: var(--accent-color);
 }
 
-@keyframes roll {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(720deg); }
+.number-placeholder {
+    color: #dfe6e9;
+    border: 2px dashed #dfe6e9;
+    background: transparent;
+    box-shadow: none;
 }
 
-.rolling {
-    animation: roll 0.5s ease-out;
+/* Staggered Animation for Balls */
+@keyframes appear {
+    0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.lotto-ball.animate {
+    animation: appear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+    font-family: inherit;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(108, 92, 231, 0.6);
+}
+
+button:active {
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    background: #b2bec3;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#status-text {
+    margin-top: 25px;
+    font-size: 1rem;
+    color: #636e72;
+    font-weight: 400;
 }
